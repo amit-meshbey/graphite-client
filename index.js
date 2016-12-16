@@ -57,15 +57,7 @@ Graphite.prototype.write = function(metrics, timestamp, callback) {
     lines += [key, value, timestamp].join(' ') + '\n';
   }
 
-  try {
-    this.socket.write(lines, this.encoding);
-  } catch (err) {
-    if (callback) {
-      callback(err);
-    } else {
-      throw err;
-    }
-  }
+  return this.socket.write(lines, this.encoding, callback);
 };
 
 Graphite.prototype.flatten = function(obj, flat, prefix) {

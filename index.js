@@ -13,9 +13,6 @@ function Graphite(host, port, encoding, timeout, timeoutListener) {
 
 Graphite.prototype.connect = function(connectListener) {
   this.socket = net.connect({host: this.host, port: this.port}, connectListener);
-  if (this.encoding) {
-    this.socket.setEncoding(this.encoding);
-  }
   
   if (this.timeout) {
     var self = this;
@@ -61,7 +58,7 @@ Graphite.prototype.write = function(metrics, timestamp, callback) {
   }
 
   try {
-    this.socket.write(lines);
+    this.socket.write(lines, this.encoding);
   } catch (err) {
     if (callback) {
       callback(err);
